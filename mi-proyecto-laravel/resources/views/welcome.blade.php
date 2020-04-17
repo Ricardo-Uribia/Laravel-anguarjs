@@ -62,6 +62,7 @@
                 margin-bottom: 30px;
             }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -79,22 +80,36 @@
                 </div>
             @endif
 
-            <div class="content">
+            <div class="content" ng-app="myApp" ng-controller="myCtrl">
                 <div class="title m-b-md">
-                    Laravel
+                    Laravel 
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <br>
+                <input type="text" name="name" ng-model="name"><br>
+                <button type="button" ng-click="save()">save</button>
             </div>
         </div>
+            <script type="text/javascript">
+                //Model
+                var app = angular.module('myApp',[]);
+                //Controller
+                app.controller('myCtrl',function($scope,$http){
+                    $scope.save = function(){
+                        console.log($scope.name);
+                        $http({
+                            url    : "http://127.0.0.1:8000/api/insert",
+                            method : "POST",
+                            data   : {
+                                "name" : $scope.name
+                            } 
+                        }).then(function(response){
+                            alert('success');
+                        },function(response){
+                            alert('failed');
+                        });
+                     }
+                });
+            </script>
     </body>
 </html>
